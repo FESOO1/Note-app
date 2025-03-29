@@ -2,12 +2,19 @@ const inputContainer = document.querySelector('.main-input');
 const noteInput = document.querySelector('#noteInput');
 const noteAddButton = document.querySelector('#noteAddButton');
 
-// CONTAINERS
+// SECTIONS
+const sectionTodo = document.querySelector('.main-output-section-todo');
+const sectionInProgress = document.querySelector('.main-output-section-in-progress');
+const sectionFinished = document.querySelector('.main-output-section-finished');
+
+// CONTAINERS TO/FROM DRAG
 const outputTodoContainer = document.querySelector('.main-output-todo-container');
+const outputInProgressContainer = document.querySelector('.main-output-in-progress-container');
+const outputFinishedContainer = document.querySelector('.main-output-finished-container');
 
 // NOTE OBJECT
 const noteObject = {
-    
+    beingDraggedElemen: undefined,
 };
 
 // ADD A NEW NOTE
@@ -40,6 +47,12 @@ function addANewNote(e) {
         setTimeout(() => inputContainer.classList.remove('main-input-error'), 300);
     };
 };
+
+// IN PROGRESS DROP
+
+outputInProgressContainer.addEventListener('dragenter', e => {
+    console.log(true);
+});
 
 // INITIALIZE BUTTONS
 noteAddButton.addEventListener('click', addANewNote);
