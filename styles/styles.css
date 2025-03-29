@@ -51,7 +51,7 @@ main {
 /* MAIN INPUT */
 
 .main-input {
-    width: 650px;
+    width: 550px;
     height: 45px;
     border-radius: 0.1rem;
     overflow: hidden;
@@ -62,6 +62,18 @@ main {
     border: 1px solid var(--border-c);
 }
 
+.main-input-error {
+    animation: 300ms forwards input-error-animation;
+}
+
+@keyframes input-error-animation {
+    0%{transform: translateX(0);}
+    25%{transform: translateX(-5px);}
+    50%{transform: translateX(0);}
+    75%{transform: translateX(5px);}
+    100%{transform: translateX(0);}
+}
+
 /* MAIN INPUT ITSELF */
 
 .main-input-itself {
@@ -69,7 +81,7 @@ main {
     background-color: transparent;
     outline: none;
     color: white;
-    font-size: 1rem;
+    font-size: 1.1rem;
     padding-left: 10px;
 }
 
@@ -112,7 +124,7 @@ main {
 .main-output-section-header {
     color: white;
     text-align: center;
-    font-weight: 500;
+    font-weight: 200;
     border-bottom: 1px solid var(--border-c);
     padding-block: 10px;
     background-color: rgb(24,24,24);
