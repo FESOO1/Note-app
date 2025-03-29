@@ -15,6 +15,21 @@ const outputFinishedContainer = document.querySelector('.main-output-finished-co
 // NOTE OBJECT
 const noteObject = {
     beingDraggedElement: undefined,
+    sections: {
+        todo: {
+            todoInput: [],
+            todoInputIndex: []
+        },
+        inProgress: {
+            inProgressInput: [],
+            inProgressInputIndex: [],
+        },
+        finished: {
+            finishedInput: [],
+            finishedInputIndex: [],
+        }
+    },
+    noteCounter: 0,
 };
 
 // ADD A NEW NOTE
@@ -26,6 +41,9 @@ function addANewNote(e) {
         const outputItself = document.createElement('div');
         outputItself.classList.add('main-output');
         outputItself.draggable = true;
+        outputItself.setAttribute('data-output-index', noteObject.noteCounter);
+        outputItself.setAttribute('data-output-parent', 'section-todo');
+        noteObject.noteCounter++;
         const outputParagraph = document.createElement('p');
         outputParagraph.classList.add('main-output-paragraph');
         outputParagraph.textContent = noteInput.value;
@@ -38,12 +56,6 @@ function addANewNote(e) {
 
         // OUTPUT TODO CONTAINER
         outputTodoContainer.appendChild(outputItself);
-
-        // RESETTING EVERYTHING
-        noteInput.value = '';
-        inputContainer.style.border = '1px solid var(--border-c)';
-
-
 
         // OUTPUT DRAGGING
         outputItself.addEventListener('dragstart', e => {
@@ -59,6 +71,15 @@ function addANewNote(e) {
         outputDeleteButton.addEventListener('click', () => {
             outputItself.parentNode.removeChild(outputItself);
         });
+
+        // SAVING THE INPUT
+        noteObject.sections.todo.todoInput.push(noteInput.value);
+        noteObject.sections.todo.todoInputIndex.push(outputItself.getAttribute('data-output-index'));
+        localStorage.setItem('noteObjectLS', JSON.stringify(noteObject));
+
+        // RESETTING EVERYTHING
+        noteInput.value = '';
+        inputContainer.style.border = '1px solid var(--border-c)';
     } else {
         inputContainer.style.border = '1px solid red';
         inputContainer.classList.add('main-input-error');
@@ -72,7 +93,7 @@ sectionTodo.addEventListener('dragover', e => e.preventDefault());
 
 sectionTodo.addEventListener('drop', e => {
     if (e.target.classList.contains('main-output-section-todo') || e.target.classList.contains('main-output-todo-container') || e.target.classList.contains('main-output-section-header')) {
-        outputTodoContainer.appendChild(noteObject.beingDraggedElement);
+        dropAnElement('section-in-progress', 'inProgress', 'section-finished', 'finished', 'todo', outputTodoContainer, 'section-todo');
     };
 });
 
@@ -88,7 +109,7 @@ sectionInProgress.addEventListener('dragover', e => e.preventDefault());
 
 sectionInProgress.addEventListener('drop', e => {
     if (e.target.classList.contains('main-output-section-in-progress') || e.target.classList.contains('main-output-in-progress-container') || e.target.classList.contains('main-output-section-header')) {
-        outputInProgressContainer.appendChild(noteObject.beingDraggedElement);
+        dropAnElement('section-todo', 'todo', 'section-finished', 'finished', 'inProgress', outputInProgressContainer, 'section-in-progress');
     };
 });
 
@@ -104,7 +125,7 @@ sectionFinished.addEventListener('dragover', e => e.preventDefault());
 
 sectionFinished.addEventListener('drop', e => {
     if (e.target.classList.contains('main-output-section-finished') || e.target.classList.contains('main-output-finished-container') || e.target.classList.contains('main-output-section-header')) {
-        outputFinishedContainer.appendChild(noteObject.beingDraggedElement);
+        dropAnElement('section-in-progress', 'inProgress', 'section-todo', 'todo', 'finished', outputFinishedContainer, 'section-finished');
     };
 });
 
@@ -114,5 +135,54 @@ sectionFinished.addEventListener('dragenter', e => {
     };
 });
 
+// DROP AN ELEMENT
+
+function dropAnElement(firstSection, firstSectionPropertyName, secondSection, secondSectionPropertyName, beingDroppedSectionName, outputContainerName, elementNewParent) {
+    const elementParent = noteObject.beingDraggedElement.getAttribute('data-output-parent');
+    const elementIndex = noteObject.beingDraggedElement.getAttribute('data-output-index');
+
+    if (elementParent === firstSection) {
+        const beingRemovedElementIndex = noteObject.sections[firstSectionPropertyName][`${firstSectionPropertyName}InputIndex`].indexOf(elementIndex);
+
+        // ADDING THE DROPPED ELEMENT INTO THE IN PROGRESS PROPERTY
+        noteObject.sections[beingDroppedSectionName][`${beingDroppedSectionName}Input`].push(noteObject.sections[firstSectionPropertyName][`${firstSectionPropertyName}Input`][beingRemovedElementIndex]);
+        noteObject.sections[beingDroppedSectionName][`${beingDroppedSectionName}InputIndex`].push(noteObject.sections[firstSectionPropertyName][`${firstSectionPropertyName}InputIndex`][beingRemovedElementIndex]);
+
+        // REMOVING THE DROPPED ELEMENT FROM THE TODO SECTION
+        noteObject.sections[firstSectionPropertyName][`${firstSectionPropertyName}Input`].splice(beingRemovedElementIndex, 1);
+        noteObject.sections[firstSectionPropertyName][`${firstSectionPropertyName}InputIndex`].splice(beingRemovedElementIndex, 1);
+    } else if (elementParent === secondSection) {
+        const beingRemovedElementIndex = noteObject.sections[secondSectionPropertyName][`${secondSectionPropertyName}InputIndex`].indexOf(elementIndex);
+
+        // ADDING THE DROPPED ELEMENT INTO THE IN PROGRESS PROPERTY
+        noteObject.sections[beingDroppedSectionName][`${beingDroppedSectionName}Input`].push(noteObject.sections[secondSectionPropertyName][`${secondSectionPropertyName}Input`][beingRemovedElementIndex]);
+        noteObject.sections[beingDroppedSectionName][`${beingDroppedSectionName}InputIndex`].push(noteObject.sections[secondSectionPropertyName][`${secondSectionPropertyName}InputIndex`][beingRemovedElementIndex]);
+
+        // REMOVING THE DROPPED ELEMENT FROM THE TODO SECTION
+        noteObject.sections[secondSectionPropertyName][`${secondSectionPropertyName}Input`].splice(beingRemovedElementIndex, 1);
+        noteObject.sections[secondSectionPropertyName][`${secondSectionPropertyName}InputIndex`].splice(beingRemovedElementIndex, 1);
+    };
+    // ADDING THE ELEMENT
+    noteObject.beingDraggedElement.setAttribute('data-output-parent', elementNewParent);
+    outputContainerName.appendChild(noteObject.beingDraggedElement);
+};
+
 // INITIALIZE BUTTONS
 noteAddButton.addEventListener('click', addANewNote);
+
+// LOCAL STORAGE
+
+function storedDataHandling() {
+    const noteObjectLS = JSON.parse(localStorage.getItem('noteObjectLS'));
+
+    // TODO
+    if (noteObjectLS) {
+        for (let i = 0; i < noteObjectLS.sections.todo.todoInput.length; i++) {
+            noteObject.noteCounter = noteObjectLS.noteCounter;
+            noteObject.sections.todo.todoInput = noteObjectLS.sections.todo.todoInput;
+            noteObject.sections.todo.todoInputIndex = noteObjectLS.sections.todo.todoInputIndex;
+        };
+    };
+};
+
+storedDataHandling();
