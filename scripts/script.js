@@ -14,7 +14,7 @@ const outputFinishedContainer = document.querySelector('.main-output-finished-co
 
 // NOTE OBJECT
 const noteObject = {
-    beingDraggedElemen: undefined,
+    beingDraggedElement: undefined,
 };
 
 // ADD A NEW NOTE
@@ -36,11 +36,29 @@ function addANewNote(e) {
         outputItself.appendChild(outputParagraph);
         outputItself.appendChild(outputDeleteButton);
 
+        // OUTPUT TODO CONTAINER
         outputTodoContainer.appendChild(outputItself);
 
         // RESETTING EVERYTHING
         noteInput.value = '';
         inputContainer.style.border = '1px solid var(--border-c)';
+
+
+
+        // OUTPUT DRAGGING
+        outputItself.addEventListener('dragstart', e => {
+            noteObject.beingDraggedElement = e.target;
+            outputItself.classList.add('main-output-dragging');
+        });
+
+        outputItself.addEventListener('dragend', () => {
+            outputItself.classList.remove('main-output-dragging');
+        });
+
+        // DELETING AN ELEMENT
+        outputDeleteButton.addEventListener('click', () => {
+            outputItself.parentNode.removeChild(outputItself);
+        });
     } else {
         inputContainer.style.border = '1px solid red';
         inputContainer.classList.add('main-input-error');
@@ -48,11 +66,34 @@ function addANewNote(e) {
     };
 };
 
+// TODO
+
+sectionTodo.addEventListener('dragover', e => e.preventDefault());
+
+sectionTodo.addEventListener('drop', e => {
+    if (e.target.classList.contains('main-output-section-todo') || e.target.classList.contains('main-output-todo-container') || e.target.classList.contains('main-output-section-header')) {
+        outputTodoContainer.appendChild(noteObject.beingDraggedElement);
+    };
+});
+
 // IN PROGRESS DROP
 
-sectionInProgress.addEventListener('dragover', e => {
-    e.preventDefault();
-    console.log(true);
+sectionInProgress.addEventListener('dragover', e => e.preventDefault());
+
+sectionInProgress.addEventListener('drop', e => {
+    if (e.target.classList.contains('main-output-section-in-progress') || e.target.classList.contains('main-output-in-progress-container') || e.target.classList.contains('main-output-section-header')) {
+        outputInProgressContainer.appendChild(noteObject.beingDraggedElement);
+    };
+});
+
+// FINISHED DROP
+
+sectionFinished.addEventListener('dragover', e => e.preventDefault());
+
+sectionFinished.addEventListener('drop', e => {
+    if (e.target.classList.contains('main-output-section-finished') || e.target.classList.contains('main-output-finished-container') || e.target.classList.contains('main-output-section-header')) {
+        outputFinishedContainer.appendChild(noteObject.beingDraggedElement);
+    };
 });
 
 // INITIALIZE BUTTONS
