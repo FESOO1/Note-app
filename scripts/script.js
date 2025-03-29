@@ -191,7 +191,6 @@ function storedDataHandling() {
             outputItself.draggable = true;
             outputItself.setAttribute('data-output-index', noteObject.sections.todo.todoInputIndex[i]);
             outputItself.setAttribute('data-output-parent', 'section-todo');
-            noteObject.noteCounter++;
             const outputParagraph = document.createElement('p');
             outputParagraph.classList.add('main-output-paragraph');
             outputParagraph.textContent = noteObject.sections.todo.todoInput[i];
@@ -231,7 +230,6 @@ function storedDataHandling() {
             outputItself.draggable = true;
             outputItself.setAttribute('data-output-index', noteObject.sections.inProgress.inProgressInputIndex[i]);
             outputItself.setAttribute('data-output-parent', 'section-in-progress');
-            noteObject.noteCounter++;
             const outputParagraph = document.createElement('p');
             outputParagraph.classList.add('main-output-paragraph');
             outputParagraph.textContent = noteObject.sections.inProgress.inProgressInput[i];
@@ -271,7 +269,6 @@ function storedDataHandling() {
             outputItself.draggable = true;
             outputItself.setAttribute('data-output-index', noteObject.sections.finished.finishedInputIndex[i]);
             outputItself.setAttribute('data-output-parent', 'section-finished');
-            noteObject.noteCounter++;
             const outputParagraph = document.createElement('p');
             outputParagraph.classList.add('main-output-paragraph');
             outputParagraph.textContent = noteObject.sections.finished.finishedInput[i];
