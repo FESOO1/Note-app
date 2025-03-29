@@ -152,7 +152,6 @@ main {
     padding: 10px;
     background-color: rgb(35,35,35);
     border: 1px solid var(--border-c);
-    cursor: grab;
     position: relative;
 }
 
@@ -165,10 +164,6 @@ main {
     background-position: center;
     border: 1px solid rgba(255,255,255,0.11);
     background-color: rgb(20,20,20);
-}
-
-.main-output:active {
-    cursor: grabbing;
 }
 
 .main-output-dragging {
@@ -197,7 +192,7 @@ main {
     background-color: rgb(217, 4, 0);
 }
 
-/* SVGs */
+/* SECTION EFFECTS */
 
 .main-output-in-progress-container .main-output::before {
     content: '';
@@ -219,4 +214,20 @@ main {
     background-position: center;
     border: 1px solid rgba(255,255,255,0.11);
     background-color: rgb(20,20,20);
+}
+
+.main-output-finished-container .main-output-paragraph {
+    text-decoration: line-through;
+    color: rgb(200,200,200);
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 800px) {
+    .main-output-sections {
+        grid-template-columns: 1fr;
+    }
+    .main-input {
+        width: calc(100% - 20px);
+    }
 }
