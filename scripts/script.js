@@ -165,6 +165,9 @@ function dropAnElement(firstSection, firstSectionPropertyName, secondSection, se
     // ADDING THE ELEMENT
     noteObject.beingDraggedElement.setAttribute('data-output-parent', elementNewParent);
     outputContainerName.appendChild(noteObject.beingDraggedElement);
+
+    // UPDATING THE OBJECT
+    localStorage.setItem('noteObjectLS', JSON.stringify(noteObject));
 };
 
 // INITIALIZE BUTTONS
@@ -177,10 +180,125 @@ function storedDataHandling() {
 
     // TODO
     if (noteObjectLS) {
+        // TODO
         for (let i = 0; i < noteObjectLS.sections.todo.todoInput.length; i++) {
             noteObject.noteCounter = noteObjectLS.noteCounter;
             noteObject.sections.todo.todoInput = noteObjectLS.sections.todo.todoInput;
             noteObject.sections.todo.todoInputIndex = noteObjectLS.sections.todo.todoInputIndex;
+
+            const outputItself = document.createElement('div');
+            outputItself.classList.add('main-output');
+            outputItself.draggable = true;
+            outputItself.setAttribute('data-output-index', noteObject.sections.todo.todoInputIndex[i]);
+            outputItself.setAttribute('data-output-parent', 'section-todo');
+            noteObject.noteCounter++;
+            const outputParagraph = document.createElement('p');
+            outputParagraph.classList.add('main-output-paragraph');
+            outputParagraph.textContent = noteObject.sections.todo.todoInput[i];
+            const outputDeleteButton = document.createElement('button');
+            outputDeleteButton.classList.add('main-output-button');
+            outputDeleteButton.type = 'button';
+            outputDeleteButton.textContent = 'DELETE';
+            outputItself.appendChild(outputParagraph);
+            outputItself.appendChild(outputDeleteButton);
+
+            // OUTPUT TODO CONTAINER
+            outputTodoContainer.appendChild(outputItself);
+
+            // OUTPUT DRAGGING
+            outputItself.addEventListener('dragstart', e => {
+                noteObject.beingDraggedElement = e.target;
+                outputItself.classList.add('main-output-dragging');
+            });
+
+            outputItself.addEventListener('dragend', () => {
+                outputItself.classList.remove('main-output-dragging');
+            });
+
+            // DELETING AN ELEMENT
+            outputDeleteButton.addEventListener('click', () => {
+                outputItself.parentNode.removeChild(outputItself);
+            });
+        };
+
+        // IN PROGRESS
+        for (let i = 0; i < noteObjectLS.sections.inProgress.inProgressInput.length; i++) {
+            noteObject.sections.inProgress.inProgressInput = noteObjectLS.sections.inProgress.inProgressInput;
+            noteObject.sections.inProgress.inProgressInputIndex = noteObjectLS.sections.inProgress.inProgressInputIndex;
+
+            const outputItself = document.createElement('div');
+            outputItself.classList.add('main-output');
+            outputItself.draggable = true;
+            outputItself.setAttribute('data-output-index', noteObject.sections.inProgress.inProgressInputIndex[i]);
+            outputItself.setAttribute('data-output-parent', 'section-in-progress');
+            noteObject.noteCounter++;
+            const outputParagraph = document.createElement('p');
+            outputParagraph.classList.add('main-output-paragraph');
+            outputParagraph.textContent = noteObject.sections.inProgress.inProgressInput[i];
+            const outputDeleteButton = document.createElement('button');
+            outputDeleteButton.classList.add('main-output-button');
+            outputDeleteButton.type = 'button';
+            outputDeleteButton.textContent = 'DELETE';
+            outputItself.appendChild(outputParagraph);
+            outputItself.appendChild(outputDeleteButton);
+
+            // OUTPUT TODO CONTAINER
+            outputInProgressContainer.appendChild(outputItself);
+
+            // OUTPUT DRAGGING
+            outputItself.addEventListener('dragstart', e => {
+                noteObject.beingDraggedElement = e.target;
+                outputItself.classList.add('main-output-dragging');
+            });
+
+            outputItself.addEventListener('dragend', () => {
+                outputItself.classList.remove('main-output-dragging');
+            });
+
+            // DELETING AN ELEMENT
+            outputDeleteButton.addEventListener('click', () => {
+                outputItself.parentNode.removeChild(outputItself);
+            });
+        };
+
+        // FINISHED
+        for (let i = 0; i < noteObjectLS.sections.finished.finishedInput.length; i++) {
+            noteObject.sections.finished.finishedInput = noteObjectLS.sections.finished.finishedInput;
+            noteObject.sections.finished.finishedInputIndex = noteObjectLS.sections.finished.finishedInputIndex;
+
+            const outputItself = document.createElement('div');
+            outputItself.classList.add('main-output');
+            outputItself.draggable = true;
+            outputItself.setAttribute('data-output-index', noteObject.sections.finished.finishedInputIndex[i]);
+            outputItself.setAttribute('data-output-parent', 'section-finished');
+            noteObject.noteCounter++;
+            const outputParagraph = document.createElement('p');
+            outputParagraph.classList.add('main-output-paragraph');
+            outputParagraph.textContent = noteObject.sections.finished.finishedInput[i];
+            const outputDeleteButton = document.createElement('button');
+            outputDeleteButton.classList.add('main-output-button');
+            outputDeleteButton.type = 'button';
+            outputDeleteButton.textContent = 'DELETE';
+            outputItself.appendChild(outputParagraph);
+            outputItself.appendChild(outputDeleteButton);
+
+            // OUTPUT TODO CONTAINER
+            outputFinishedContainer.appendChild(outputItself);
+
+            // OUTPUT DRAGGING
+            outputItself.addEventListener('dragstart', e => {
+                noteObject.beingDraggedElement = e.target;
+                outputItself.classList.add('main-output-dragging');
+            });
+
+            outputItself.addEventListener('dragend', () => {
+                outputItself.classList.remove('main-output-dragging');
+            });
+
+            // DELETING AN ELEMENT
+            outputDeleteButton.addEventListener('click', () => {
+                outputItself.parentNode.removeChild(outputItself);
+            });
         };
     };
 };
