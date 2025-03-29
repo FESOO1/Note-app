@@ -19,8 +19,10 @@ body {
 /* MAIN */
 
 main {
-    display: flex;
-    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr;
 }
 
 /* MAIN INPUT CONTAINER */
@@ -41,11 +43,9 @@ main {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url(../assets/bg.svg) no-repeat;
-    background-position: center;
-    background-size: cover;
+    background: url(../assets/bg.svg);
     z-index: -1;
-    opacity: 0.1;
+    opacity: 0.05;
 }
 
 /* MAIN INPUT */
@@ -94,4 +94,68 @@ main {
     background-color: rgb(55,55,55);
 }
 
+/* MAIN OUTPUT SECTIONS */
+
+.main-output-sections {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* MAIN OUTPUT SECTION */
+
+.main-output-section {
+    border-right: 1px solid var(--border-c);
+}
+
+/* MAIN OUTPUT SECTION HEADER */
+
+.main-output-section-header {
+    color: white;
+    text-align: center;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border-c);
+    padding-block: 10px;
+    background-color: rgb(24,24,24);
+}
+
+/* MAIN OUTPUT CONTAINER */
+
+.main-output-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    row-gap: 10px;
+}
+
 /* MAIN OUTPUT */
+
+.main-output {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    padding: 10px;
+    background-color: rgb(35,35,35);
+    border: 1px solid var(--border-c);
+}
+
+.main-output-paragraph {
+    color: white;
+    line-height: 1.5;
+}
+
+.main-output-button {
+    font-size: 1rem;
+    padding-block: 5px;
+    border: 1px solid var(--border-c);
+    background-color: rgb(45,45,45);
+    color: white;
+    cursor: pointer;
+}
+
+.main-output-button:hover {
+    background-color: rgb(255, 4, 0);
+}
+
+.main-output-button:active {
+    background-color: rgb(217, 4, 0);
+}
