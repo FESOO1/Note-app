@@ -2,6 +2,7 @@
 
 :root {
     --f-winky-sans: "Winky Sans", sans-serif;
+    --border-c: rgba(255,255,255,0.05);
 }
 
 * {
@@ -14,3 +15,83 @@
 body {
     background-color: rgb(20,20,20);
 }
+
+/* MAIN */
+
+main {
+    display: flex;
+    flex-direction: column;
+}
+
+/* MAIN INPUT CONTAINER */
+
+.main-input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: 60px;
+    border-bottom: 1px solid var(--border-c);
+    position: relative;
+}
+
+.main-input-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(../assets/bg.svg) no-repeat;
+    background-position: center;
+    background-size: cover;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+/* MAIN INPUT */
+
+.main-input {
+    width: 650px;
+    height: 45px;
+    border-radius: 0.1rem;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    background-color: rgb(30,30,30);
+    column-gap: 10px;
+    border: 1px solid var(--border-c);
+}
+
+/* MAIN INPUT ITSELF */
+
+.main-input-itself {
+    border: 0;
+    background-color: transparent;
+    outline: none;
+    color: white;
+    font-size: 1rem;
+    padding-left: 10px;
+}
+
+/* MAIN INPUT BUTTON */
+
+.main-input-button {
+    padding-inline: 15px;
+    font-size: 1rem;
+    border: 0;
+    outline: none;
+    background-color: rgb(50,50,50);
+    color: white;
+    border-left: 1px solid var(--border-c);
+    cursor: pointer;
+}
+
+.main-input-button:hover {
+    background-color: rgb(60,60,60);
+}
+
+.main-input-button:active {
+    background-color: rgb(55,55,55);
+}
+
+/* MAIN OUTPUT */
