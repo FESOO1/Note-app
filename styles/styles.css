@@ -153,6 +153,18 @@ main {
     background-color: rgb(35,35,35);
     border: 1px solid var(--border-c);
     cursor: grab;
+    position: relative;
+}
+
+.main-output::before {
+    content: '';
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background: url(../assets/todo.svg) no-repeat;
+    background-position: center;
+    border: 1px solid rgba(255,255,255,0.11);
+    background-color: rgb(20,20,20);
 }
 
 .main-output:active {
@@ -160,7 +172,7 @@ main {
 }
 
 .main-output-dragging {
-    opacity: 0.2;
+    opacity: 0.5;
 }
 
 .main-output-paragraph {
@@ -183,4 +195,28 @@ main {
 
 .main-output-button:active {
     background-color: rgb(217, 4, 0);
+}
+
+/* SVGs */
+
+.main-output-in-progress-container .main-output::before {
+    content: '';
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background: url(../assets/in-progress.svg) no-repeat;
+    background-position: center;
+    border: 1px solid rgba(255,255,255,0.11);
+    background-color: rgb(20,20,20);
+}
+
+.main-output-finished-container .main-output::before {
+    content: '';
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background: url(../assets/finished.svg) no-repeat;
+    background-position: center;
+    border: 1px solid rgba(255,255,255,0.11);
+    background-color: rgb(20,20,20);
 }

@@ -76,6 +76,12 @@ sectionTodo.addEventListener('drop', e => {
     };
 });
 
+sectionTodo.addEventListener('dragenter', e => {
+    if (e.target.classList.contains('main-output-section-todo') || e.target.classList.contains('main-output-todo-container') || e.target.classList.contains('main-output-section-header')) {
+        outputTodoContainer.appendChild(noteObject.beingDraggedElement);
+    };
+});
+
 // IN PROGRESS DROP
 
 sectionInProgress.addEventListener('dragover', e => e.preventDefault());
@@ -86,11 +92,23 @@ sectionInProgress.addEventListener('drop', e => {
     };
 });
 
+sectionInProgress.addEventListener('dragenter', e => {
+    if (e.target.classList.contains('main-output-section-in-progress') || e.target.classList.contains('main-output-in-progress-container') || e.target.classList.contains('main-output-section-header')) {
+        outputInProgressContainer.appendChild(noteObject.beingDraggedElement);
+    };
+});
+
 // FINISHED DROP
 
 sectionFinished.addEventListener('dragover', e => e.preventDefault());
 
 sectionFinished.addEventListener('drop', e => {
+    if (e.target.classList.contains('main-output-section-finished') || e.target.classList.contains('main-output-finished-container') || e.target.classList.contains('main-output-section-header')) {
+        outputFinishedContainer.appendChild(noteObject.beingDraggedElement);
+    };
+});
+
+sectionFinished.addEventListener('dragenter', e => {
     if (e.target.classList.contains('main-output-section-finished') || e.target.classList.contains('main-output-finished-container') || e.target.classList.contains('main-output-section-header')) {
         outputFinishedContainer.appendChild(noteObject.beingDraggedElement);
     };
