@@ -50,7 +50,8 @@ function addANewNote(e) {
 
 // IN PROGRESS DROP
 
-outputInProgressContainer.addEventListener('dragenter', e => {
+sectionInProgress.addEventListener('dragover', e => {
+    e.preventDefault();
     console.log(true);
 });
 
